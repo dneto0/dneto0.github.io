@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Afflatus detritus</title>
+    <link>https://dneto0.github.io/posts/</link>
+    <description>Recent content in Posts on Afflatus detritus</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>2023</copyright>
+    <lastBuildDate>Thu, 09 Feb 2023 22:18:55 -0500</lastBuildDate><atom:link href="https://dneto0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Is this thing on?</title>
+      <link>https://dneto0.github.io/posts/2023/my-first-post/</link>
+      <pubDate>Thu, 09 Feb 2023 22:18:55 -0500</pubDate>
+      
+      <guid>https://dneto0.github.io/posts/2023/my-first-post/</guid>
+      
+        <description>Hello world! Recently I wondered aloud whether I should write a blog. I also wondered if I should call it &amp;ldquo;Bog standard&amp;rdquo;.
+I made a poll to ask, over on Mastodon. Unfortunately, the poll only had a binary answer. (What a noob.) So in the end I don&amp;rsquo;t know how folks felt about either one of my questions, specifically.
+One response was &amp;ldquo;DO IT&amp;rdquo; (Thanks, Neil!) I took that to mean I should get on with it, finally, no matter what I called it.</description>
+      
+    </item>
+    
+  </channel>
+</rss>
