@@ -1,7 +1,6 @@
 ---
 title: "About"
 date: 2023-02-10T01:12:35-05:00
-draft: true
 ---
 
 
@@ -9,7 +8,7 @@ I am a software developer, currently working in the Chrome team at Google.
 
 This is my personal blog.
 
-I work on GPU language standards, compielrs, and related tooling:
+I work on GPU language standards, compilers, and related tooling:
 * I am an editor for the [WebGPU Shading Language](https://w3.org/TR/WGSL) (WGSL)
 * I was chair of the SPIR Working Group at [Khronos](https://khronos.org), working on the [SPIR-V intermediate language](https://khronos.org/spir) for GPUs.
 * Some of my team's projects include:

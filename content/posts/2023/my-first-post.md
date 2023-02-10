@@ -1,7 +1,6 @@
 ---
 title: "Is this thing on?"
 date: 2023-02-09T22:18:55-05:00
-draft: true
 ---
 
 ## Hello world!
