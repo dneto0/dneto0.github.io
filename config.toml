@@ -1,0 +1,38 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'Afflatus detritus'
+theme = 'anatole'
+copyright = "2023"
+
+[params]
+title = "David Neto"
+author = "David Neto"
+description = "Just a guy with a degree and some experience"
+profilePicture = "images/profile.png"
+displayMode = "dark"
+contentratio = 0.8
+doNotLoadAnimations = true
+customCss = ["css/styles.css"]
+singleDateFormat = "2006-01-02"
+indexDateFormat = "2006-01-02"
+listDateFormat = "2006-01-02"
+
+[menu]
+
+  [[menu.main]]
+  name = "Home"
+  identifier = "home"
+  weight = 100
+  url = "/"
+
+  [[menu.main]]
+  name = "Posts"
+  identifier = "posts"
+  weight = 200
+  url = "/posts/"
+
+  [[menu.main]]
+  name = "About"
+  identifier = "about"
+  weight = 300
+  url = "/about/"

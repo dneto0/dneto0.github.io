@@ -1,0 +1,27 @@
+.sidebar__introduction-title {
+  text-transform: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  margin: 1em;
+
+  a {
+    font-size: 3.2rem;
+  }
+}
+
+.post__content h1 {
+  letter-spacing: 0px;
+}
+
+.post__content h2 {
+  letter-spacing: 0px;
+}
+
+.post__content h3 {
+  letter-spacing: 0px;
+}
+
+* {
+ font-family: sans-serif;
+}
