@@ -37,3 +37,9 @@ gtagId = "G-920QQBQFLX"
   identifier = "about"
   weight = 300
   url = "/about/"
+
+  [[menu.main]]
+  name = "Privacy policy"
+  identifier = "privacy"
+  weight = 400
+  url = "/privacy/"
