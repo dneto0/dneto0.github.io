@@ -16,6 +16,7 @@ customCss = ["css/styles.css"]
 singleDateFormat = "2006-01-02"
 indexDateFormat = "2006-01-02"
 listDateFormat = "2006-01-02"
+gtagId = "G-920QQBQFLX"
 
 [menu]
 
