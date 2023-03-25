@@ -18,6 +18,9 @@ indexDateFormat = "2006-01-02"
 listDateFormat = "2006-01-02"
 gtagId = "G-920QQBQFLX"
 
+[params.mermaid]
+enable = true
+
 [menu]
 
   [[menu.main]]
