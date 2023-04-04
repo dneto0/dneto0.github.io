@@ -8,7 +8,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 [params]
 title = "David Neto"
 author = "David Neto"
-description = "Just a guy with a degree and some experience"
+description = "A guy with a degree and some experience"
 profilePicture = "images/profile.webp"
 displayMode = "dark"
 contentratio = 0.8
