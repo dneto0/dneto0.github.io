@@ -2,7 +2,8 @@ baseURL = 'https://www.dneto.dev/'
 languageCode = 'en-us'
 title = 'Afflatus detritus'
 theme = 'anatole'
-copyright = "2023"
+copyright = "2025"
+ignoreLogs = ['warning-goldmark-raw-html']
 
 [params]
 title = "David Neto"
