@@ -1,0 +1,139 @@
+<!doctype html><html dir=ltr lang=en data-theme=dark class="html theme--dark"><head><meta charset=utf-8><title>David Neto
+|
+WGSL: Three ways to declare pure values
+</title><meta name=generator content="Hugo 0.140.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=author content="David Neto"><meta name=description content="A guy with a degree and some experience"><link rel=stylesheet href=/scss/main.min.8573ccbcce9adb4803b05cc0cc2c1a2320227009e14b84f4ad07ef744f54a09b.css integrity="sha256-hXPMvM6a20gDsFzAzCwaIyAicAnhS4T0rQfvdE9UoJs=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/styles.min.9648e1953b0025dae07f9c5160c627e57270deca36fbdcea289f9c852952a08b.css integrity="sha256-lkjhlTsAJdrgf5xRYMYn5XJw3so2+9zqKJ+chSlSoIs=" crossorigin=anonymous media=screen><link rel=stylesheet href=/fontawesome/css/fontawesome.min.137b1cf3cea9a8adb7884343a9a5ddddf4280f59153f74dc782fb7f7bf0d0519.css integrity="sha256-E3sc886pqK23iENDqaXd3fQoD1kVP3TceC+3978NBRk=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/fontawesome/css/solid.min.e65dc5b48fb5f39b142360c57c3a215744c94e56c755c929cc3e88fe12aab4d3.css integrity="sha256-5l3FtI+185sUI2DFfDohV0TJTlbHVckpzD6I/hKqtNM=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/fontawesome/css/regular.min.6f4f16d58da1c82c0c3a3436e021a3d39b4742f741192c546e73e947eacfd92f.css integrity="sha256-b08W1Y2hyCwMOjQ24CGj05tHQvdBGSxUbnPpR+rP2S8=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/fontawesome/css/brands.min.e10425ad768bc98ff1fb272a0ac8420f9d1ba22f0612c08ff1010c95080ffe7e.css integrity="sha256-4QQlrXaLyY/x+ycqCshCD50boi8GEsCP8QEMlQgP/n4=" crossorigin=anonymous type=text/css><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=canonical href=https://www.dneto.dev/posts/2025/wgsl-evaluation-phase/><script type=text/javascript src=/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js integrity="sha256-+RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI=" crossorigin=anonymous></script><script type=text/javascript src=/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc=" crossorigin=anonymous></script><meta name=twitter:card content="summary"><meta name=twitter:title content="WGSL: Three ways to declare pure values"><meta name=twitter:description content="Introduction The WebGPU Shading Language (or WGSL) has four ways to declare named values: var, const, override, and let.
+A var declares a variable: a name for storage holding a value. For this post we’ll forget about memory for now — see what I did there? — and talk about the others.
+So what’s up with the other three?
+Giving names to pure values Each of const, override, or let gives a name to a value like a number, vector, array, or structure."><meta property="og:url" content="https://www.dneto.dev/posts/2025/wgsl-evaluation-phase/"><meta property="og:site_name" content="Afflatus detritus"><meta property="og:title" content="WGSL: Three ways to declare pure values"><meta property="og:description" content="Introduction The WebGPU Shading Language (or WGSL) has four ways to declare named values: var, const, override, and let.
+A var declares a variable: a name for storage holding a value. For this post we’ll forget about memory for now — see what I did there? — and talk about the others.
+So what’s up with the other three?
+Giving names to pure values Each of const, override, or let gives a name to a value like a number, vector, array, or structure."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-01-02T14:00:00-04:00"><meta property="article:modified_time" content="2025-01-02T14:00:00-04:00"><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"WGSL: Three ways to declare pure values","headline":"WGSL: Three ways to declare pure values","alternativeHeadline":"","description":"
+      
+        \u003chr\u003e\n\u003ch2 id=\u0022introduction\u0022\u003eIntroduction\u003c\/h2\u003e\n\u003cp\u003eThe WebGPU Shading Language (or \u003ca href=\u0022w3.org\/TR\/WGSL\u0022\u003eWGSL\u003c\/a\u003e)\nhas four ways to declare named values: \u003ccode\u003evar\u003c\/code\u003e, \u003ccode\u003econst\u003c\/code\u003e, \u003ccode\u003eoverride\u003c\/code\u003e, and \u003ccode\u003elet\u003c\/code\u003e.\u003c\/p\u003e\n\u003cp\u003eA \u003ccode\u003evar\u003c\/code\u003e declares a variable: a name for \u003cem\u003estorage\u003c\/em\u003e holding a value.\nFor this post we\u0026rsquo;ll forget about memory for now\n\u0026mdash; see what I did there? \u0026mdash; and talk about the others.\u003c\/p\u003e\n\u003cp\u003eSo what\u0026rsquo;s up with the other three?\u003c\/p\u003e\n\u003ch2 id=\u0022giving-names-to-pure-values\u0022\u003eGiving names to pure values\u003c\/h2\u003e\n\u003cp\u003eEach of \u003ccode\u003econst\u003c\/code\u003e, \u003ccode\u003eoverride\u003c\/code\u003e, or \u003ccode\u003elet\u003c\/code\u003e gives a name to a \u003cem\u003evalue\u003c\/em\u003e like a number, vector, array,\nor structure.\u003c\/p\u003e
+
+
+      
+
+
+    ","inLanguage":"en-us","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.dneto.dev\/posts\/2025\/wgsl-evaluation-phase\/"},"author":{"@type":"Person","name":"David Neto"},"creator":{"@type":"Person","name":"David Neto"},"accountablePerson":{"@type":"Person","name":"David Neto"},"copyrightHolder":{"@type":"Person","name":"David Neto"},"copyrightYear":"2025","dateCreated":"2025-01-02T14:00:00.00Z","datePublished":"2025-01-02T14:00:00.00Z","dateModified":"2025-01-02T14:00:00.00Z","publisher":{"@type":"Organization","name":"David Neto","url":"https://www.dneto.dev/","logo":{"@type":"ImageObject","url":"https:\/\/www.dneto.dev\/favicon-32x32.png","width":"32","height":"32"}},"image":[],"url":"https:\/\/www.dneto.dev\/posts\/2025\/wgsl-evaluation-phase\/","wordCount":"1538","genre":[],"keywords":[]}</script></head><body class=body><div class=wrapper><aside class=wrapper__sidebar><div class="sidebar
+."><div class=sidebar__content><div class=sidebar__introduction><img class=sidebar__introduction-profileimage src=/images/profile.webp alt="profile picture"><div class=sidebar__introduction-title><a href=/>David Neto</a></div><div class=sidebar__introduction-description><p>A guy with a degree and some experience</p></div></div><ul class=sidebar__list></ul></div><footer class="footer footer__sidebar"><ul class=footer__list><li class=footer__item>&copy;
+David Neto
+2025</li></ul></footer><script type=text/javascript src=/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-920QQBQFLX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-920QQBQFLX")</script></div></aside><main class=wrapper__main><header class=header><div class=.><a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false><span aria-hidden=true class=navbar-burger__line></span>
+<span aria-hidden=true class=navbar-burger__line></span>
+<span aria-hidden=true class=navbar-burger__line></span></a><nav class=nav><ul class=nav__list id=navMenu><li class=nav__list-item><a href=/ title>Home</a></li><li class=nav__list-item><a href=/posts/ title>Posts</a></li><li class=nav__list-item><a href=/about/ title>About</a></li><li class=nav__list-item><a href=/privacy/ title>Privacy policy</a></li></ul><ul class="nav__list nav__list--end"><li class=nav__list-item><div class=themeswitch><a title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></li></ul></nav></div></header><div class="post
+."><div class=post__content><h1>WGSL: Three Ways to Declare Pure Values</h1><h3>Table of Contents</h3><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#giving-names-to-pure-values>Giving names to pure values</a></li><li><a href=#so-why-are-there-three-of-them>So why are there three of them?</a></li><li><a href=#a-few-more-things>A few more things</a><ul><li><a href=#numeric-const-expressions-can-be-high-precision>Numeric const-expressions can be high precision</a></li><li><a href=#edge-cases-before-runtime-are-errors>Edge cases before runtime are errors</a></li></ul></li><li><a href=#further-reading>Further reading</a></li></ul></nav><hr><h2 id=introduction>Introduction</h2><p>The WebGPU Shading Language (or <a href=w3.org/TR/WGSL>WGSL</a>)
+has four ways to declare named values: <code>var</code>, <code>const</code>, <code>override</code>, and <code>let</code>.</p><p>A <code>var</code> declares a variable: a name for <em>storage</em> holding a value.
+For this post we&rsquo;ll forget about memory for now
+&mdash; see what I did there? &mdash; and talk about the others.</p><p>So what&rsquo;s up with the other three?</p><h2 id=giving-names-to-pure-values>Giving names to pure values</h2><p>Each of <code>const</code>, <code>override</code>, or <code>let</code> gives a name to a <em>value</em> like a number, vector, array,
+or structure.</p><p><strong>Once created, the value does not change</strong>.
+This is great because when reading code, there are fewer moving parts to keep track of.</p><blockquote><p>💡 The objects created by <code>const</code>, <code>override</code>, and <code>let</code> are simpler
+than <code>var</code>iables because you can reason about them while knowing
+much less about how computers work.
+To fully understand <em>variables</em>, you need to understand how memory is structured, with allocations
+and addresses, and how different parts of the system can &mdash; sometimes concurrently &mdash;
+read from and write to that memory.
+That gets pretty deep pretty fast.</p></blockquote><h2 id=so-why-are-there-three-of-them>So why are there three of them?</h2><p>There are three kinds of (pure) value declarations because
+<strong>three distinct phases in the life of a WGSL program when an expression can be evaluated</strong>.</p><p>They are:</p><ol><li>Shader creation time: during the <a href=https://www.w3.org/TR/webgpu/#dom-gpudevice-createshadermodule>createShaderModule</a> API call.</li><li>Pipeline creation time: during
+<a href=https://www.w3.org/TR/webgpu/#dom-gpudevice-createrenderpipeline>createComputePipeline</a>,
+<a href=https://www.w3.org/TR/webgpu/#dom-gpudevice-createcomputepipeline>createRenderPipeline</a>,
+and their variants.</li><li>Shader execution.</li></ol><p>Take a look at the diagram.
+It shows the key interactions between a WebGPU Application and the WebGPU implementation (e.g. your browser).</p><div class=mermaid>sequenceDiagram
+participant A as Application
+participant C as Browser
+note over A,C: Get a GPUAdapter from `gpu`<br>Get a GPUDevice from the adapter
+A ->>+C: device.createShaderModule({ code: '@compute ...' })
+activate C
+Note right of C: Shader-creation time:<br>Evaluate `const`-expressions.<br>Set final values for `const`-declarations.
+C -->> A: a GPUShaderModule
+deactivate C
+Note left of A: m &larr; the GPUShaderModule
+A ->>C: device.createComputePipeline({module: m, constants:{}})
+activate C
+Note right of C: Pipeline-creation time:<br>Evaluate `override`-expressions.<br>Set final values for `override`-declarations.
+C -->> A: a GPUComputePipeline
+deactivate C
+Note left of A: cp &larr; the GPUComputePipeline
+Note over A,C: Create and populate buffers and textures,<br>Create bind group layouts<br>Record commands into command buffer cb
+%%Note over A,C: Submit commands
+A ->>C: device.queue.submit([cb])
+C-->>C: Wait to be scheduled
+activate C
+Note right of C: Shader execution.<br>Evaluate runtime expressions.<br>Set `let` values when execution reaches them.
+A ->> C: device.queue.onSubmittedWorkDone()
+C -->> A: a pending Promise&lt;undefined>
+C -->> A: fulfill Promise
+deactivate C</div><p>I&rsquo;ve abstracted away the first part, where you get the GPUAdapter, then the GPUDevice from the adapter, and the middle parts where you create resources, bind group layouts, and record the commands to
+be executed on the GPU.</p><p>The parts shown in more detail are:</p><ol><li>Shader creation time.<ul><li>A shader is created when the application calls <code>device.createShaderModule</code>, providing
+a <code>GPUShaderModuleDescriptor</code> which itself contains the WGSL source code.</li><li><strong>This is when all <code>const</code>-expressions are evaluated.</strong><ul><li>The values of <code>const</code>-expressions depend <em>only on the WGSL source code</em>.</li><li>They can use literals (like 3.14), arithmetic and logical operators,
+calls to built-in functions with the <code>@const</code> attribute, and
+<code>const</code>-declared values.</li></ul></li><li><strong>This is also when the values for <code>const</code>-declarations
+are set once and for all.</strong></li></ul></li><li>Pipeline creation time. Let&rsquo;s take the compute pipeline case; the render pipeline case is similar.<ul><li>A compute pipeline is created when the application calls <code>device.createComputePipeline</code> (or its async variant),
+providing a GPUComputePipelineDescriptor, which in turn has a GPUProgrammableStage.</li><li>The GPUProgrammableStage holds the shader module created in step 1.</li><li><strong>This is when all <code>override</code>-expressions are evaluated.</strong><ul><li>They can use <code>const</code>-expressions (including <code>const</code>-declared values),
+arithmetic and logical operators,
+calls to built-in functions with the <code>@const</code> attribute, and
+<code>override</code>-declared values.</li></ul></li><li><strong>This is also when the values for <code>override</code>-declarations
+are set once and for all.</strong></li><li>💡 Why didn&rsquo;t we evaluate override expressions earlier?
+This is where it gets interesting.
+In addition to the shader module, the GPUProgrammableStage also holds a
+<a href=https://www.w3.org/TR/webgpu/#dom-gpuprogrammablestage-constants>constants</a> dictionary
+mapping names and ids to scalar values. Which matters because&mldr;</li><li>When evaluating override-expressions, <strong>the value of an <code>override</code> declaration can be
+set by an entry the <code>constants</code> dictionary</strong> <em>instead of taking the value of its initializer</em>:<ul><li>If <code>constants</code> has an entry (<em>key</em>,<em>X</em>), and <em>key</em> is
+the identifier for an override, then the value for that override will be <em>X</em>.</li><li>Alternately, if an override declaration has an <a href=https://www.w3.org/TR/WGSL/#id-attr><code>@id(E)</code></a> attribute, and <em>key</em> is the string
+for the (decimal) value of <em>E</em>, then the value for that override will be <em>X</em>.</li><li>If an override declaration has no such matching entry,
+then it takes the value computed for its initializer expression.</li></ul></li><li>Corner cases include:<ul><li>An override controlled in this way must be of scalar type.</li><li>The <em>X</em> value given on the API side is interpreted as a double-precision float.
+The value must be convertible to the override&rsquo;s type.</li><li>If an override has no initializer, and isn&rsquo;t matched this way, then pipeline creation fails.</li></ul></li></ul></li><li>Shader execution.<ul><li>This happens when the shader is a stage in a pipeline, a command to execute the pipeline
+is written to a command buffer, that command buffer is submitted to a queue,
+and <em>finally</em> the enqueued command eventually is scheduled to run on the GPU.</li><li>The shader executes starting at the designated entry point function, and continues executing
+until that entry point finishes.</li><li>Each time <code>let</code>-declaration is reached, it takes the value of its initializer expression.</li><li>Any expression which hasn&rsquo;t already been evaluated in steps 1 or 2 above is called a <strong>runtime expression</strong>,
+and is <strong>evaluated when execution reaches it</strong>.</li><li>Runtime-expressions can <strong>depend on things that are only known at shader execution time</strong>,
+some of which <strong>may change during shader execution</strong>, including
+the values stored in variables, pipeline inputs, and the result of executing functions.</li></ul></li></ol><blockquote><p>💡 The initializer to a let declaration can also be a const-expression or an override-expression,
+depending on which functions and declarations it mentions.</p></blockquote><p>Here&rsquo;s an example compute shader that copies one array to another.
+It demonstrates <code>const</code>, <code>override</code> and runtime expressions.
+Each invocation copies up
+to <code>block_size</code> adjacent elements from the source to the destination.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#66d9ef>const</span> block_size <span style=color:#f92672>=</span> <span style=color:#ae81ff>8</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>override</span> wg_size <span style=color:#f92672>=</span> <span style=color:#ae81ff>16</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>@</span>group(<span style=color:#ae81ff>0</span>) <span style=color:#f92672>@</span>binding(<span style=color:#ae81ff>0</span>) var<span style=color:#f92672>&lt;</span>storage<span style=color:#f92672>&gt;</span> source: <span style=color:#a6e22e>array</span><span style=color:#f92672>&lt;</span><span style=color:#66d9ef>u32</span><span style=color:#f92672>&gt;</span>;
+</span></span><span style=display:flex><span><span style=color:#f92672>@</span>group(<span style=color:#ae81ff>0</span>) <span style=color:#f92672>@</span>binding(<span style=color:#ae81ff>1</span>) var<span style=color:#f92672>&lt;</span>storage,read_write<span style=color:#f92672>&gt;</span> dest: <span style=color:#a6e22e>array</span><span style=color:#f92672>&lt;</span><span style=color:#66d9ef>u32</span><span style=color:#f92672>&gt;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>@</span>compute <span style=color:#f92672>@</span>workgroup_size(wg_size)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>(<span style=color:#f92672>@</span>builtin(global_invocation_id) gid: <span style=color:#a6e22e>vec3u</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> num_elem <span style=color:#f92672>=</span> min(arrayLength(<span style=color:#f92672>&amp;</span>source), arrayLength(<span style=color:#f92672>&amp;</span>dest));
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (var i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>u; i <span style=color:#f92672>&lt;</span> block_size; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> my_idx <span style=color:#f92672>=</span> gid.x <span style=color:#f92672>*</span> block_size <span style=color:#f92672>+</span> i;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (my_idx <span style=color:#f92672>&lt;</span> num_elem) {
+</span></span><span style=display:flex><span>      dest[my_idx] <span style=color:#f92672>=</span> source[my_idx];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>(I haven&rsquo;t tried the code. I&rsquo;ve just compiled it.)</p><p>In summary the key differences between the ways of declaring pure values are:</p><ul><li><code>const</code>-declaration initializers are const-expressions:
+their values are finalized at shader-creation time, only using information in the WGSL source code.</li><li><code>override</code>-declarations are initialized with override-expressions:
+their values are finalized at pipeline-creation time, and can be overridden
+by a <code>constants</code> dictionary provided at that time.</li><li><code>let</code>-declarations are initialized with runtime-expresisons:
+their values are computed each time execution reaches them, and can use data that dynamically
+changes during runtime.</li></ul><h2 id=a-few-more-things>A few more things</h2><h3 id=numeric-const-expressions-can-be-high-precision>Numeric const-expressions can be high precision</h3><p>Const-expressions are designed to be evaluated on the CPU, once, when the shader is first created.
+CPUs generally support high precision numeric types, and
+WGSL lets you use those types when computing const-expressions.</p><p>WGSL calls these types <a href=https://www.w3.org/TR/WGSL/#abstractint>AbstractInt</a> and <a href=https://www.w3.org/TR/WGSL/#abstractfloat>AbstractFloat</a>,
+and they each have <em>at least</em> 64 bits of precision each.
+For example, a number like <code>123456</code> is an AbstractInt, and <code>1.3e10</code> is an AbstractFloat.</p><p>In this code snippet, all the expressions are <code>const</code>-expressions, and are evaluated with 64 bit precision.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>     <span style=color:#66d9ef>const</span> distance_to_sun_m <span style=color:#f92672>=</span> <span style=color:#ae81ff>149597870700</span>;
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>const</span> year_in_s <span style=color:#f92672>=</span> <span style=color:#ae81ff>365.25</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>24</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3600</span>;
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>const</span> pi <span style=color:#f92672>=</span> <span style=color:#ae81ff>3.141592653589793238462643</span>;
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>const</span> velocity_of_earth_m_per_s <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> pi <span style=color:#f92672>*</span> distance_to_sun_in_meters <span style=color:#f92672>/</span> year_in_s;
+</span></span></code></pre></div><h3 id=edge-cases-before-runtime-are-errors>Edge cases before runtime are errors</h3><p>An error is generated when a <code>const</code>-expression or <code>override</code> exception overflows, or produces an infinity or NaN.</p><p>In this code snippet, both lines are errors.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>     <span style=color:#66d9ef>const</span> oops <span style=color:#f92672>=</span> <span style=color:#ae81ff>1.0</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>0.0</span>;
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>const</span> oops_nan <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>0.0</span>;
+</span></span></code></pre></div><p>Why? Two reasons:</p><ul><li><strong>GPUs often take shortcuts with floating point math.</strong>
+They generally don&rsquo;t implement full IEEE 754 floating point rules.
+They won&rsquo;t behave nicely in overflow and other edge cases, and they definitely won&rsquo;t signal exceptions.
+So relying on specific behaviour in those cases will be non-portable, and portability is important for a web standard.
+So WGSL takes the attitude that producing those edge cases is a problem, a defect.
+Expressions evaluated before runtime (const and override) are computed on the CPU, and implementations can (mostly) reliably
+detect the edge cases at that time. So the implementation is required to generate an error.</li><li><strong>Room for expansion</strong>. Someday we might want to use more than 64 bit precision for AbstractInt and AbstractFloat.
+Today an overflowing abstract expression produces an error.
+In the future if we used 128 bits or more, then that expression might not overflow.
+By <em>not</em> specifying a correct answer today, we can expand the precision of the type without breaking backward compatibility of working applications.
+By comparison, the Go language requires compilers to support <a href=https://go.dev/ref/spec#Constants>constant evaluation well beyond 64 bit precision</a>.</li></ul><h2 id=further-reading>Further reading</h2><ul><li>WGSL <a href=https://www.w3.org/TR/WGSL/#shader-lifecycle>§ 2.1 Shader Lifecycle</a></li><li>WGSL <a href=https://www.w3.org/TR/WGSL/#var-and-value>§ 7. Variables and Value Declarations</a></li><li><a href=https://go.dev/blog/constants>Constants</a> in the Go Blog. This is a really nice explanation of how Go treats constant values.
+I like the simplicity of treating constant values as being typeless as possible.
+Hopefully WGSL&rsquo;s <a href=https://www.w3.org/TR/WGSL/#feasible-automatic-conversion>automatic conversions</a> for abstract types gives much of that usability.</li></ul><script src=https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js></script><script>mermaid.initialize({startOnLoad:!0})</script></div><div class=post__footer></div></div></main></div><footer class="footer footer__base"><ul class=footer__list><li class=footer__item>&copy;
+David Neto
+2025</li></ul></footer><script type=text/javascript src=/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ=" crossorigin=anonymous></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-920QQBQFLX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-920QQBQFLX")</script></body></html>
