@@ -6,6 +6,8 @@ toc: true
 ---
 
 -----
+*2025-01-02*
+
 ## Introduction
 
 The WebGPU Shading Language (or [WGSL](w3.org/TR/WGSL))

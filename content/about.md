@@ -11,8 +11,8 @@ This is my personal blog.
 I work on GPU language standards, compilers, and related tooling:
 * I am an editor for the [WebGPU Shading Language](https://w3.org/TR/WGSL) (WGSL)
 * I was chair of the SPIR Working Group at [Khronos](https://khronos.org), working on the [SPIR-V intermediate language](https://khronos.org/spir) for GPUs.
-* Some of my team's projects include:
-   * [Tint](https://dawn.googlesource.com/tint): A WGSL compiler used by
+* Some of my team's current and past projects include:
+   * [Tint](https://dawn.googlesource.com/dawn/+/refs/heads/main/src/tint/): A WGSL compiler used by
        Chrome's implementation of [WebGPU](https://w3.org/TR/webgpu).
    * [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools): Low level SPIR-V
        utilities including an assembler, disassembler, parser, validator, and optimizer.
@@ -36,3 +36,4 @@ The thesis is *Efficient Cluster Compensation for Lin-Kernighan Heuristics*, [PD
 You can find me at:
 * GitHub: [github.com/dneto0](https://github.com/dneto0)
 * Mastodon: [@dneto@mastodon.gamedev.place](https://mastodon.gamedev.place/@dneto)
+* Bluesky: [@dneto.dev](https://bsky.app/profile/dneto.dev)
